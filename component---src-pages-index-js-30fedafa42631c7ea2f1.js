@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkjustcamp_gatsby=self.webpackChunkjustcamp_gatsby||[]).push([[678],{3936:function(e,t,a){a.r(t),a.d(t,{default:function(){return l}});var n=a(7294),u=a(9956);a(5430),a.p,a.p;a(1082);a.p;a.p;var c=a(7868);var l=()=>n.createElement(n.Fragment,null,n.createElement(u.Z,{headerConfig:{bgClass:"dynamic-sticky-bg"}},n.createElement(c.default,null)))}}]);
+//# sourceMappingURL=component---src-pages-index-js-30fedafa42631c7ea2f1.js.map
