@@ -2,6 +2,7 @@ module.exports = {
   siteMetadata: {
     title: `Justcamp Gatsby`,
   },
+    pathPrefix: "/summer-program",
   plugins: [
     `gatsby-plugin-react-helmet`,
     `gatsby-plugin-sass`,
