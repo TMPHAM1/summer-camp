@@ -11,6 +11,7 @@ import NestedMenu from "../NestedMenu";
 import { device } from "../../utils";
 import Logo from "../Logo";
 import { menuItems } from "./menuItems";
+import {navigate} from 'gatsby'
 
 import imgP from "../../assets/image/header-profile.png";
 
@@ -321,16 +322,22 @@ const Header = () => {
 
             {gContext.header.button === "account" && (
               <div className="header-btns header-btn-devider ml-auto pr-2 ml-lg-6 d-none d-xs-flex">
-                <a
+                {/* <a
                   className="btn btn-transparent text-uppercase font-size-3 heading-default-color focus-reset"
                   href="/#"
                   onClick={(e) => {
-                    e.preventDefault();
+                    e.preventDefault();F
                     gContext.toggleSignInModal();
-                  }}
+                  }}=
                 >
                   Log In
-                </a>
+                </a> */}
+                 <Link
+                  className="btn btn-transparent text-uppercase font-size-3 heading-default-color focus-reset"
+                  to="http://localhost:1337/api/connect/auth0"
+                >
+                  Log In
+                </Link>
                 <a
                   className={`btn btn-${gContext.header.variant} text-uppercase font-size-3`}
                   href="/#"
