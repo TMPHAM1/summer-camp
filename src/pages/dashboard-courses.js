@@ -1,62 +1,56 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "gatsby";
 import { Location } from '@reach/router';
 import PageWrapper from "../components/PageWrapper";
 import { Select } from "../components/Core";
 import GlobalContext from "../context/GlobalContext";
-
-
-import imgP1 from "../assets/image/table-one-profile-image-1.png";
-import imgP2 from "../assets/image/table-one-profile-image-2.png";
-import imgP3 from "../assets/image/table-one-profile-image-3.png";
-import imgP4 from "../assets/image/table-one-profile-image-4.png";
-import imgP5 from "../assets/image/table-one-profile-image-5.png";
-
-
-const defaultJobs = [
-  { value: "pd", label: "Product Designer" },
-  { value: "gd", label: "Graphics Designer" },
-  { value: "fd", label: "Frontend Developer" },
-  { value: "bd", label: "Backend Developer" },
-  { value: "cw", label: "Content Writer" },
-];
+import InformationModal from "../components/InformationModal"
 
 const DashboardCourses = ({location}) => {
   const gContext = useContext(GlobalContext);
+  const [showModal, setShowModal] = useState(false)
+  const fillerText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut lectus arcu bibendum at. Risus feugiat in ante metus dictum at tempor commodo ullamcorper. Dictum at tempor commodo ullamcorper a. Eget lorem dolor sed viverra ipsum. Dignissim diam quis enim lobortis scelerisque fermentum. Maecenas ultricies mi eget mauris pharetra et ultrices. Egestas maecenas pharetra convallis posuere morbi leo urna. Magna etiam tempor orci eu. Dictum sit amet justo donec enim diam vulputate ut pharetra. Tincidunt ornare massa eget egestas purus viverra accumsan in. Iaculis eu non diam phasellus. Ornare suspendisse sed nisi lacus. Cras semper auctor neque vitae tempus. Nibh cras pulvinar mattis nunc sed blandit libero volutpat. Arcu felis bibendum ut tristique. Tincidunt lobortis feugiat vivamus at augue eget arcu dictum varius. Faucibus et molestie ac feugiat sed lectus."
   const defaultCourses = [
     {name: "History",
      start_date: "1/22/23",
      end_date: "4/29/23",
      taught_by: "Marley Jones",
      seats_available: 50,
+     description: fillerText,
     },
     {name: "Science",
     start_date: "1/22/23",
     end_date: "4/29/23",
     taught_by: "Marley Jones",
     seats_available: 25,
+    description: fillerText,
    },
    {name: "Archery",
    start_date: "1/22/23",
    end_date: "4/29/23",
    taught_by: "Marley Jones",
    seats_available: 0,
+   description: fillerText,
   }, {name: "Phsyics",
   start_date: "1/22/23",
   end_date: "4/29/23",
   taught_by: "Marley Jones",
   seats_available: 50,
+  description: fillerText,
  }, {name: "Math",
  start_date: "1/22/23",
  end_date: "4/29/23",
  taught_by: "Marley Jones",
  seats_available: 50,
+ description: fillerText,
 }
   ]
+const handleToggle = () => {setShowModal(!showModal)}
 const isEnroll = location && location.search === "?enroll" ;
 const role = gContext.header.role
 
 const content =  <div className="mb-14">
+   <InformationModal showModal={showModal} handleClose={handleToggle} />
 <div className="row mb-11 align-items-between">
   <div className="col-lg-6 mb-lg-0 mb-4">
     <h3 className="font-size-6 mb-0">Course List ({defaultCourses.length})</h3>
@@ -110,8 +104,8 @@ const content =  <div className="mb-14">
           const registartionAvailable = course.seats_available !== 0;
          return (<tr className="border border-color-2">
           <th scope="row" className="pl-6 border-0 py-7 pr-0">
-            <Link
-              to="/candidate-profile"
+            <span
+              onClick={handleToggle}
               className="media min-width-px-235 align-items-center"
             >
               {/* <div className="circle-36 mr-6">
@@ -120,7 +114,7 @@ const content =  <div className="mb-14">
               <h4 className="font-size-4 mb-0 font-weight-semibold text-black-2">
                 {course.name}
               </h4>
-            </Link>
+            </span>
           </th>
           <td className="table-y-middle py-7 min-width-px-235 pr-0">
             <h3 className="font-size-4 font-weight-normal text-black-2 mb-0">
@@ -159,12 +153,11 @@ const content =  <div className="mb-14">
           <td className="table-y-middle py-7 min-width-px-110 pr-0">
             <div className="">
               <Link
-                to={isEnroll ? '/enroll' : '/details'}
                 className="font-size-3 font-weight-bold text-green text-uppercase"
               >
                 {isEnroll ? 
                 <button disabled={!registartionAvailable} className={`btn ${registartionAvailable ?  "btn-primary" : "btn-light disabled"} btn-md w-20 text-uppercase float-right border-dark`}>{registartionAvailable ? "Register" : "Full" }</button> : 
-                <button disabled={!registartionAvailable} className={`btn btn-primary btn-md w-20 text-uppercase float-right border-dark`}>Details</button>}
+                <button onClick={handleToggle} className={`btn btn-primary btn-md w-20 text-uppercase float-right border-dark`}>Details</button>}
               </Link>
             </div>
           </td>

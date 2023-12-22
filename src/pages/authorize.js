@@ -1,7 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { location, navigate } from "gatsby";
+import styled from "styled-components";
 
 const backendUrl ="http://localhost:1337";
+
+
+const Loader = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #fff;
+  z-index: 9999999999;
+  opacity: 1;
+  visibility: visible;
+  transition: all 1s ease-out 0.5s;
+  &.inActive {
+    opacity: 0;
+    visibility: hidden;
+  }
+`;
 
 const LoginRedirect = ({location}) => {
   const [text, setText] = useState('Loading...');
@@ -36,7 +55,38 @@ const LoginRedirect = ({location}) => {
       });
   }, [location, location.search]);
 
-  return <p>{text}</p>
+  return <div>
+  
+    <div className="pricing-area">
+            <div className="container pt-12 pt-lg-24 pb-13 pb-lg-25">
+              <div className="row justify-content-center">
+                <div
+                  className="col-xxl-6 col-lg-7 col-md-9"
+                  data-aos="fade-in"
+                  data-aos-duration="1000"
+                  data-aos-delay="500"
+                >
+                  {/* <!-- section-title start --> */}
+                  <div className="section-title text-center mb-12 mb-lg-18 mb-lg-15 pb-lg-15 pb-0">
+                    <Loader>    <div className="load-circle">
+              <span className="one"></span>
+            </div></Loader>
+                    <h2 className="mb-9">
+                     {text}
+                    </h2>
+                    {/* <p className="text-default-color font-size-4 px-5 px-md-10 px-lg-15 px-xl-24 px-xxl-22">
+                      You should be receiving an email confirmation for you successful enrollment.
+                    </p> */}
+                  </div>
+                  {/* <!-- section-title end --> */}
+                </div>
+              </div>
+            </div>
+          </div>
+    <div className="load-circle">
+              <span className="one"></span>
+            </div>
+  </div>
 };
 
 export default LoginRedirect;

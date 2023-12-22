@@ -348,6 +348,12 @@ const Header = () => {
                 >
                   Sign Up
                 </a>
+                <Link
+                  className="btn btn-transparent text-uppercase font-size-3 heading-default-color focus-reset"
+                  to="http://localhost:1337/api/shopify"
+                >
+                  Shopify
+                </Link>
               </div>
             )}
 
