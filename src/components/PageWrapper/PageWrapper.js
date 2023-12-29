@@ -13,7 +13,7 @@ const headerConfigDefault = {
   button: "account", // profile, cart, cta, account, null
   buttonText: "Get started free", // profile, cart, cta, account, null
   reveal: true,
-  role: "student"
+  role: "teacher"
 };
 
 const footerConfigDefault = {

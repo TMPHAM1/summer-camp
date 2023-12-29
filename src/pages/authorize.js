@@ -31,7 +31,6 @@ const LoginRedirect = ({location}) => {
     }
     // Successfully logged with the provider
     // Now logging with strapi by using the access_token (given by the provider) in props.location.search
-    console.log("TIS IS PASS LOADING", `${backendUrl}/api/auth/auth0/callback${location.search}`)
     fetch(`${backendUrl}/api/auth/auth0/callback${location.search}`)
       .then(res => {
         if (res.status !== 200) {
