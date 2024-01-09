@@ -6,6 +6,7 @@ import { Link } from "gatsby";
 
 import { useWindowSize } from "../../hooks/useWindowSize";
 import GlobalContext from "../../context/GlobalContext";
+import { AuthContext } from "../../context/AuthContext";
 import Offcanvas from "../Offcanvas";
 import NestedMenu from "../NestedMenu";
 import { device } from "../../utils";
@@ -13,7 +14,8 @@ import Logo from "../Logo";
 import { menuItems } from "./menuItems";
 import {navigate} from 'gatsby'
 
-import imgP from "../../assets/image/header-profile.png";
+import imgP from "../../assets/image/default_user.png";
+
 
 const SiteHeader = styled.header`
   .dropdown-toggle::after {
@@ -54,7 +56,8 @@ const Header = () => {
   const gContext = useContext(GlobalContext);
   const [showScrolling, setShowScrolling] = useState(false);
   const [showReveal, setShowReveal] = useState(false);
-
+  const avatar  = localStorage.getItem('avatar')
+  
   const size = useWindowSize();
 
   useScrollPosition(({ prevPos, currPos }) => {
@@ -262,7 +265,7 @@ const Header = () => {
                       className="proile media ml-7 flex-y-center"
                     >
                       <div className="circle-40">
-                        <img src={imgP} alt="" />
+                        <img src={avatar === "undefined" ? imgP : avatar} alt="" style={{width:'75%'}}/>
                       </div>
                       <i className="fas fa-chevron-down heading-default-color ml-6"></i>
                     </Dropdown.Toggle>
@@ -336,9 +339,9 @@ const Header = () => {
                   className="btn btn-transparent text-uppercase font-size-3 heading-default-color focus-reset"
                   to="http://localhost:1337/api/connect/auth0"
                 >
-                  Log In
+                  Log In (Non-SSO)
                 </Link>
-                <a
+                {/* <a
                   className={`btn btn-${gContext.header.variant} text-uppercase font-size-3`}
                   href="/#"
                   onClick={(e) => {
@@ -347,12 +350,12 @@ const Header = () => {
                   }}
                 >
                   Sign Up
-                </a>
-                <Link
-                  className="btn btn-transparent text-uppercase font-size-3 heading-default-color focus-reset"
-                  to="http://localhost:1337/api/shopify"
+                </a> */}
+                    <Link
+                  className={`btn btn-${gContext.header.variant} text-uppercase font-size-3`}
+                  to="http://localhost:1337/api/connect/auth0"
                 >
-                  Shopify
+                  Log In (SSO)
                 </Link>
               </div>
             )}

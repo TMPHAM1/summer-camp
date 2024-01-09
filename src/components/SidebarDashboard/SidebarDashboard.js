@@ -6,7 +6,7 @@ import imgL from "../../assets/image/logo-main-black.png";
 
 const Sidebar = () => {
   const gContext = useContext(GlobalContext);
-  const role = gContext.header.role
+  const role = gContext.userRole
   const roleCreation= {
     student: "Enroll in a Course",
     teacher: "Create a course",

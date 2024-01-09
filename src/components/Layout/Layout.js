@@ -18,6 +18,7 @@ import ModalVideo from "../ModalVideo";
 import ModalApplication from "../ModalApplication";
 import ModalSignIn from "../ModalSignIn";
 import ModalSignUp from "../ModalSignUp";
+import ModalUserRole from "../ModalUserRole";
 
 import GlobalContext from "../../context/GlobalContext";
 
@@ -163,7 +164,7 @@ const Layout = ({ children, pageContext }) => {
             <SidebarDashboard />
             {children}
           </div>
-
+          <ModalUserRole />
           <ModalVideo />
           <ModalApplication />
           <ModalSignIn />
@@ -191,7 +192,7 @@ const Layout = ({ children, pageContext }) => {
             <Header isDark={gContext.headerDark} />
             {children}
 
-            <Footer isDark={gContext.footerDark} />
+           
           </div>
 
           <ModalVideo />

@@ -24,9 +24,11 @@ const defaultJobs = [
 ];
 
 const DashboardMain = () => {
-  const gContext = useContext(GlobalContext);
-  const role = gContext.header.role
+  const {userRole, setUserRoleModalVisible } = useContext(GlobalContext);
   // Check Authenthentication
+  if (!userRole) {
+    setUserRoleModalVisible(true);
+  }
   const courseInfoText = {
     student: "Courses Enrolled",
     teacher: "Courses Managed", 
@@ -64,7 +66,7 @@ const DashboardMain = () => {
                       </LazyLoad>
                     </h5>
                     <p className="font-size-4 font-weight-normal text-gray mb-0">
-                      {courseInfoText[role]}
+                      {courseInfoText[userRole]}
                     </p>
                   </div>
                 </a>
