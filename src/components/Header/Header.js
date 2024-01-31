@@ -56,7 +56,6 @@ const Header = () => {
   const gContext = useContext(GlobalContext);
   const [showScrolling, setShowScrolling] = useState(false);
   const [showReveal, setShowReveal] = useState(false);
-  const avatar  = localStorage.getItem('avatar')
   
   const size = useWindowSize();
 
