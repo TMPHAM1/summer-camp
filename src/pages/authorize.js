@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { location, navigate } from "gatsby";
 import styled from "styled-components";
-
+import { AuthContext } from '../context/AuthContext';
 const backendUrl ="http://localhost:1337";
 
 
@@ -31,7 +31,6 @@ const LoginRedirect = ({location}) => {
     }
     // Successfully logged with the provider
     // Now logging with strapi by using the access_token (given by the provider) in props.location.search
-    console.log("TIS IS PASS LOADING", `${backendUrl}/api/auth/auth0/callback${location.search}`)
     fetch(`${backendUrl}/api/auth/auth0/callback${location.search}`)
       .then(res => {
         if (res.status !== 200) {
@@ -43,9 +42,9 @@ const LoginRedirect = ({location}) => {
       .then(res => {
         // Successfully logged with Strapi
         // Now saving the jwt to use it for future authenticated requests to Strapi
-        console.log("this is res", res)
         localStorage.setItem('jwt', res.jwt);
-        localStorage.setItem('username', res.user.username);
+        localStorage.getItem('user', res.user)
+        localStorage.setItem('avatar', res.user.avatar);
         setText('You have been successfully logged in. You will be redirected in a few seconds...');
         setTimeout(() => navigate('/dashboard-main'), 3000); // Redirect to homepage after 3 sec
       })

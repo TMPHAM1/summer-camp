@@ -47,7 +47,7 @@ const DashboardCourses = ({location}) => {
   ]
 const handleToggle = () => {setShowModal(!showModal)}
 const isEnroll = location && location.search === "?enroll" ;
-const role = gContext.header.role
+const role = gContext.userRole
 
 const content =  <div className="mb-14">
    <InformationModal showModal={showModal} handleClose={handleToggle} />

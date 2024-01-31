@@ -45,7 +45,7 @@ const ModalSignIn = (props) => {
             type="button"
             className="circle-32 btn-reset bg-white pos-abs-tr mt-md-n6 mr-lg-n6 focus-reset z-index-supper"
             onClick={handleClose}
-          >
+          >a
             <i className="fas fa-times"></i>
           </button>
           <div className="login-modal-main bg-white rounded-8 overflow-hidden">

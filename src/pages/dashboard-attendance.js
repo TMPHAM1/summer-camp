@@ -33,7 +33,7 @@ const defaultStudents  = [
 
 const DashboardAttendance = ({location}) => {
   const gContext = useContext(GlobalContext);
-  const isTeacher = gContext.header.role === "teacher"
+  const isTeacher = gContext.userRole=== "teacher"
 
   const content =  <div className="mb-18">
 <div className="row mb-11 align-items-center">
