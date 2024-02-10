@@ -1,10 +1,11 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "gatsby";
 import { Location } from '@reach/router';
 import PageWrapper from "../components/PageWrapper";
 import { Select } from "../components/Core";
 import GlobalContext from "../context/GlobalContext";
 import InformationModal from "../components/InformationModal"
+import {getCourses} from "../utils/apiCalls"
 
 const DashboardCourses = ({location}) => {
   const gContext = useContext(GlobalContext);
@@ -45,12 +46,28 @@ const DashboardCourses = ({location}) => {
  description: fillerText,
 }
   ]
-const handleToggle = () => {setShowModal(!showModal)}
+const [courses, setCourses] = useState([]);
+const [courseSelected, setCourseSelected] = useState(null);
+useEffect(()=> {
+ const fetchData = async () => {
+  try {
+    const response = await getCourses();
+    setCourses(response.data);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+fetchData();
+}, [])
+console.log(courses);
+const handleToggle = () => {
+  setShowModal(!showModal)}
 const isEnroll = location && location.search === "?enroll" ;
 const role = gContext.userRole
 
 const content =  <div className="mb-14">
-   <InformationModal showModal={showModal} handleClose={handleToggle} />
+   <InformationModal showModal={showModal} handleClose={handleToggle} course={courseSelected}/>
 <div className="row mb-11 align-items-between">
   <div className="col-lg-6 mb-lg-0 mb-4">
     <h3 className="font-size-6 mb-0">Course List ({defaultCourses.length})</h3>
@@ -100,8 +117,9 @@ const content =  <div className="mb-14">
         </tr>
       </thead>
       <tbody>
-        {defaultCourses.map((course) => {
-          const registartionAvailable = course.seats_available !== 0;
+        {courses ? courses.map((course) => {
+
+          const registartionAvailable = course.attributes.seats_available !== 0;
          return (<tr className="border border-color-2">
           <th scope="row" className="pl-6 border-0 py-7 pr-0">
             <span
@@ -112,18 +130,18 @@ const content =  <div className="mb-14">
                 <img src={imgP1} alt="" className="w-100" />
               </div> */}
               <h4 className="font-size-4 mb-0 font-weight-semibold text-black-2">
-                {course.name}
+                {course.attributes.name}
               </h4>
             </span>
           </th>
           <td className="table-y-middle py-7 min-width-px-235 pr-0">
             <h3 className="font-size-4 font-weight-normal text-black-2 mb-0">
-             {course.taught_by}
+             {course.attributes.teacher.data.attributes.name}
             </h3>
           </td>
           <td className="table-y-middle py-7 min-width-px-170 pr-0">
             <h3 className="font-size-4 font-weight-normal text-black-2 mb-0">
-             {course.start_date}
+             {course.attributes.start_date}
             </h3>
           </td>
           <td className="table-y-middle py-7 min-width-px-170 pr-0">
@@ -136,7 +154,7 @@ const content =  <div className="mb-14">
                   gContext.toggleApplicationModal();
                 }}
               >
-                {course.end_date}
+                {course.attributes.end_date}
               </a>
             </div>
           </td>
@@ -144,7 +162,7 @@ const content =  <div className="mb-14">
             <div className="">
               <Link
                 to="/#"
-                className={`font-size-3 font-weight-bold ${course.seats_available < 5 ? 'text-red-2' : 'text-black-2'} text-uppercase`}
+                className={`font-size-3 font-weight-bold ${course.attributes.seats_available < 5 ? 'text-red-2' : 'text-black-2'} text-uppercase`}
               >
                {course.seats_available}
               </Link>
@@ -157,12 +175,12 @@ const content =  <div className="mb-14">
               >
                 {isEnroll ? 
                 <button disabled={!registartionAvailable} className={`btn ${registartionAvailable ?  "btn-primary" : "btn-light disabled"} btn-md w-20 text-uppercase float-right border-dark`}>{registartionAvailable ? "Register" : "Full" }</button> : 
-                <button onClick={handleToggle} className={`btn btn-primary btn-md w-20 text-uppercase float-right border-dark`}>Details</button>}
+                <button onClick={()=> {setCourseSelected(course); handleToggle();}} className={`btn btn-primary btn-md w-20 text-uppercase float-right border-dark`}>Details</button>}
               </Link>
             </div>
           </td>
          
-        </tr>)})}
+        </tr>)}) : <div>No Courses Available</div>}
       </tbody>
     </table>
   </div>

@@ -2,7 +2,8 @@ import React, { useContext, useEffect, useState } from 'react';
 import { location, navigate } from "gatsby";
 import styled from "styled-components";
 import { AuthContext } from '../context/AuthContext';
-const backendUrl ="http://localhost:1337";
+const backendUrl = process.env.BACKEND_URL || "localhost:1337";
+
 
 
 const Loader = styled.div`
@@ -31,7 +32,7 @@ const LoginRedirect = ({location}) => {
     }
     // Successfully logged with the provider
     // Now logging with strapi by using the access_token (given by the provider) in props.location.search
-    fetch(`${backendUrl}/api/auth/auth0/callback${location.search}`)
+    fetch(`http://${backendUrl}/api/auth/auth0/callback${location.search}`)
       .then(res => {
         if (res.status !== 200) {
           throw new Error(`Couldn't login to Strapi. Status: ${res.status}`);
