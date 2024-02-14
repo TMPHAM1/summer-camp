@@ -53,10 +53,11 @@ const ToggleButton = styled.button`
 `;
 
 const Header = () => {
+  const backendUrl = process.env.BACKEND_URL || "localhost:1337";
   const gContext = useContext(GlobalContext);
   const [showScrolling, setShowScrolling] = useState(false);
   const [showReveal, setShowReveal] = useState(false);
-  
+  const avatar = gContext.avatar || null
   const size = useWindowSize();
 
   useScrollPosition(({ prevPos, currPos }) => {
@@ -71,7 +72,6 @@ const Header = () => {
       setShowReveal(false);
     }
   });
-
   return (
     <>
       <SiteHeader
@@ -274,13 +274,7 @@ const Header = () => {
                         key="1"
                       >
                         <Link
-                          to="/#"
-                          className="dropdown-item py-2 font-size-3 font-weight-semibold line-height-1p2 text-uppercase"
-                        >
-                          Settings
-                        </Link>
-                        <Link
-                          to="/#"
+                          to="/dashboard-settings"
                           className="dropdown-item py-2 font-size-3 font-weight-semibold line-height-1p2 text-uppercase"
                         >
                           Edit Profile
@@ -298,13 +292,7 @@ const Header = () => {
                         key="2"
                       >
                         <Link
-                          to="/#"
-                          className="dropdown-item py-2 font-size-3 font-weight-semibold line-height-1p2 text-uppercase"
-                        >
-                          Settings
-                        </Link>
-                        <Link
-                          to="/#"
+                          to="/dashboard-settings"
                           className="dropdown-item py-2 font-size-3 font-weight-semibold line-height-1p2 text-uppercase"
                         >
                           Edit Profile
@@ -334,12 +322,6 @@ const Header = () => {
                 >
                   Log In
                 </a> */}
-                 <Link
-                  className="btn btn-transparent text-uppercase font-size-3 heading-default-color focus-reset"
-                  to="http://localhost:1337/api/connect/auth0"
-                >
-                  Log In (Non-SSO)
-                </Link>
                 {/* <a
                   className={`btn btn-${gContext.header.variant} text-uppercase font-size-3`}
                   href="/#"
@@ -352,7 +334,7 @@ const Header = () => {
                 </a> */}
                     <Link
                   className={`btn btn-${gContext.header.variant} text-uppercase font-size-3`}
-                  to="http://localhost:1337/api/connect/auth0"
+                  to={`https://${backendUrl}/api/connect/auth0`}
                 >
                   Log In (SSO)
                 </Link>

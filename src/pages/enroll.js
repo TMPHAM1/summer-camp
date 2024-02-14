@@ -1,8 +1,11 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { Nav, Tab } from "react-bootstrap";
 import { Link } from "gatsby";
 import PageWrapper from "../components/PageWrapper";
 import StripePayment from "../components/Stripe/stripe-payment-element";
+import { getCourses } from "../utils/apiCalls";
+import { useQueryParam, NumberParam, StringParam } from "use-query-params";
+import GlobalContext from "../context/GlobalContext";
 
 import imgF1 from "../assets/image/l2/png/featured-job-logo-1.png";
 import imgB1 from "../assets/image/l1/png/feature-brand-1.png";
@@ -11,7 +14,27 @@ import imgB3 from "../assets/image/l1/png/feature-brand-5.png";
 import imgB4 from "../assets/image/l3/png/github-mark.png";
 import imgB5 from "../assets/image/l3/png/universal.png";
 
-const CandidateProfile = () => {
+
+const CandidateProfile = ({location}) => {  
+  const enrollParams = new URLSearchParams(location.search);
+  const [course, setCourse] = useState(null)
+  const courseID = enrollParams.get('course');
+  useEffect(()=> {
+    const fetchData = async () => {
+     try {
+       const response = await getCourses(courseID);
+       setCourse(response.data);
+     } catch (error) {
+       console.log(error);
+     }
+   };
+   
+   fetchData();
+   }, [])
+   if(!course) {
+      return <div>Error with purchasing current course</div>
+   }
+  console.log(course);
   return (
     <>
       <PageWrapper headerConfig={{ button: "profile" }}>
@@ -45,11 +68,11 @@ const CandidateProfile = () => {
                           to="/#"
                           className="font-size-6 text-black-2 font-weight-semibold"
                         >
-                          History: American Revolution
+                          {course.attributes.name}
                         </Link>
                       </h2>
                       <span className="mb-0 text-gray font-size-4">
-                        History 202
+                          {course.attributes.name}
                       </span>
                     </div>
                   </div>
@@ -76,9 +99,9 @@ const CandidateProfile = () => {
                           {/* <!-- Single Widgets Start --> */}
                           <div className="col-12 col-lg-4 col-md-4 col-xs-6">
                             <div className="mb-8">
-                              <p className="font-size-4">Class Size</p>
+                              <p className="font-size-4">Seat Available</p>
                               <h5 className="font-size-4 font-weight-semibold text-black-2">
-                                50
+                                 {course.attributes.seats_available}
                               </h5>
                             </div>
                             <div className="mb-8">
@@ -94,13 +117,13 @@ const CandidateProfile = () => {
                             <div className="mb-8">
                               <p className="font-size-4">Taught By</p>
                               <h5 className="font-size-4 font-weight-semibold text-black-2">
-                               John Larson
+                               {course.attributes.teacher.data.attributes.name}
                               </h5>
                             </div>
                             <div className="mb-8">
                               <p className="font-size-4">Location</p>
                                <h5 className="font-size-4 font-weight-semibold text-black-2">
-                                TBD
+                                {course.attributes.location}
                               </h5>
                             </div>
                           </div>
@@ -110,7 +133,7 @@ const CandidateProfile = () => {
                             <div className="mb-8">
                               <p className="font-size-4">Email</p>
                               <h5 className="font-size-4 font-weight-semibold text-black-2">
-                                jlarson@school.com
+                              {course.attributes.teacher.data.attributes.email}
                               </h5>
                             </div>
                             <div className="mb-8">
@@ -128,12 +151,9 @@ const CandidateProfile = () => {
                           About Course
                         </h4>
                         <div className="pt-5 ">
-                          <p className="font-size-4 mb-8">
-                          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut lectus arcu bibendum at. Risus feugiat in ante metus dictum at tempor commodo ullamcorper. Dictum at tempor commodo ullamcorper a. Eget lorem dolor sed viverra ipsum. Dignissim diam quis enim lobortis scelerisque fermentum. Maecenas ultricies mi eget mauris pharetra et ultrices. Egestas maecenas pharetra convallis posuere morbi leo urna. Magna etiam tempor orci eu. Dictum sit amet justo donec enim diam vulputate ut pharetra. Tincidunt ornare massa eget egestas purus viverra accumsan in. Iaculis eu non diam phasellus. Ornare suspendisse sed nisi lacus. Cras semper auctor neque vitae tempus. Nibh cras pulvinar mattis nunc sed blandit libero volutpat. Arcu felis bibendum ut tristique. Tincidunt lobortis feugiat vivamus at augue eget arcu dictum varius. Faucibus et molestie ac feugiat sed lectus.
-                          </p>
-                          <p className="font-size-4 mb-8">
-                          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut lectus arcu bibendum at. Risus feugiat in ante metus dictum at tempor commodo ullamcorper. Dictum at tempor commodo ullamcorper a. Eget lorem dolor sed viverra ipsum. Dignissim diam quis enim lobortis scelerisque fermentum. Maecenas ultricies mi eget mauris pharetra et ultrices. Egestas maecenas pharetra convallis posuere morbi leo urna. Magna etiam tempor orci eu. Dictum sit amet justo donec enim diam vulputate ut pharetra. Tincidunt ornare massa eget egestas purus viverra accumsan in. Iaculis eu non diam phasellus. Ornare suspendisse sed nisi lacus. Cras semper auctor neque vitae tempus. Nibh cras pulvinar mattis nunc sed blandit libero volutpat. Arcu felis bibendum ut tristique. Tincidunt lobortis feugiat vivamus at augue eget arcu dictum varius. Faucibus et molestie ac feugiat sed lectus.
-                          </p>
+                          
+                        {course.attributes.description.split(/\r?\n|\r|\n/g).map((descriptionBlock) => <p className="font-size-4 mb-8">{descriptionBlock}</p> )}
+                          
                         </div>
                         {/* <!-- Excerpt End --> */}
                       </Tab.Pane>

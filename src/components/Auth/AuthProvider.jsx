@@ -20,7 +20,7 @@ const AuthProvider = ({ children }) => {
         headers: { Authorization: `${BEARER} ${token}` },
       });
       const data = await response.json();
-
+      localStorage.set("User", data);
       setUserData(data);
     } catch (error) {
       console.error(error);

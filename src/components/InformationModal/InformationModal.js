@@ -12,18 +12,24 @@ const ModalStyled = styled(Modal)`
 `;
 
 const ModalSignUp = (props) => {
+  const {course, handleClose,showModal} = props;
+  if(!course) {
+    return <div></div>
+  }
+  console.log("THIS IS COURSE PASSED THRU INFORMATION MODAL", course)
+  const {description, teacher, seats_available, start_date, end_date, name, location, credits, cost} = course.attributes;
   return (
     <ModalStyled
       size="lg"
       centered
-      show={props.showModal}
+      show={showModal}
       onHide={()=> {}}
     >
       <Modal.Body className="p-0">
         <button
           type="button"
           className="circle-32 btn-reset bg-white pos-abs-tr mt-n6 mr-lg-n6 focus-reset shadow-10"
-          onClick={props.handleClose}
+          onClick={handleClose}
         >
           <i className="fas fa-times"></i>
         </button>
@@ -31,7 +37,7 @@ const ModalSignUp = (props) => {
           <div className="row no-gutters">
             <div className="container">
             <div className="row ">
-              {/* <!-- Company Profile --> */}
+              {/* <!-- Course Information --> */}
               <div className="col-12 col-xl-12 col-lg-12">
                 <div className="bg-white rounded-4 pt-11 shadow-9">
                   <div className="d-xs-flex align-items-center pl-xs-12 mb-8 text-center text-xs-left">
@@ -44,11 +50,11 @@ const ModalSignUp = (props) => {
                           to="/#"
                           className="font-size-6 text-black-2 font-weight-semibold"
                         >
-                          History: American Revolution
+                          {name}
                         </Link>
                       </h2>
                       <span className="mb-0 text-gray font-size-4">
-                        History 202
+                       {location || "TBD"}
                       </span>
                     </div>
                   </div>
@@ -77,13 +83,13 @@ const ModalSignUp = (props) => {
                             <div className="mb-8">
                               <p className="font-size-4">Class Size</p>
                               <h5 className="font-size-4 font-weight-semibold text-black-2">
-                                50
+                                {seats_available}
                               </h5>
                             </div>
                             <div className="mb-8">
                               <p className="font-size-4">Credits</p>
                               <h5 className="font-size-4 font-weight-semibold text-black-2">
-                                3
+                                {credits || "TBD"}
                               </h5>
                             </div>
                           </div>
@@ -93,13 +99,13 @@ const ModalSignUp = (props) => {
                             <div className="mb-8">
                               <p className="font-size-4">Taught By</p>
                               <h5 className="font-size-4 font-weight-semibold text-black-2">
-                               John Larson
+                               {teacher.data.attributes.name}
                               </h5>
                             </div>
                             <div className="mb-8">
                               <p className="font-size-4">Location</p>
                                <h5 className="font-size-4 font-weight-semibold text-black-2">
-                                TBD
+                                {location || "TBD"}
                               </h5>
                             </div>
                           </div>
@@ -109,13 +115,13 @@ const ModalSignUp = (props) => {
                             <div className="mb-8">
                               <p className="font-size-4">Email</p>
                               <h5 className="font-size-4 font-weight-semibold text-black-2">
-                                jlarson@school.com
+                                {teacher.data.attributes.name || "TBD"}
                               </h5>
                             </div>
                             <div className="mb-8">
                               <p className="font-size-4">Price</p>
                               <h5 className="font-size-4 font-weight-semibold text-black-2">
-                                $255
+                                {cost || "TBD"}
                               </h5>
                             </div>
                           </div>
@@ -128,7 +134,7 @@ const ModalSignUp = (props) => {
                         </h4>
                         <div className="pt-5 ">
                           <p className="font-size-4 mb-8">
-                          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut lectus arcu bibendum at. Risus feugiat in ante metus dictum at tempor commodo ullamcorper. Maecenas ultricies mi eget mauris pharetra et ultrices. Egestas maecenas pharetra convallis posuere morbi leo urna. Magna etiam tempor orci eu. Dictum sit amet justo donec enim diam vulputate ut pharetra. Tincidunt ornare massa eget egestas purus viverra accumsan in. Iaculis eu non diam phasellus. Ornare suspendisse sed nisi lacus. Cras semper auctor neque vitae tempus. Nibh cras pulvinar mattis nunc sed blandit libero volutpat. Arcu felis bibendum ut tristique. Tincidunt lobortis feugiat vivamus at augue eget arcu dictum varius. Faucibus et molestie ac feugiat sed lectus.
+                            {description}
                           </p>
                         </div>
                         {/* <!-- Excerpt End --> */}
