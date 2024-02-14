@@ -10,7 +10,8 @@ const GlobalProvider = ({ children }) => {
   const [signUpModalVisible, setSignUpModalVisible] = useState(false);
   const [videoModalVisible, setVideoModalVisible] = useState(false);
   const [visibleOffCanvas, setVisibleOffCanvas] = useState(false);
-  const [userRole, setUserRole] = useState(null)
+  const [userRole, setUserRole] = useState(null);
+  const [courseSelected, setCourseSelected] = useState(null);
   const [userRoleModalVisible, setUserRoleModalVisible] = useState(false);
   const [header, setHeader] = useState({
     theme: "light",
@@ -88,6 +89,8 @@ const GlobalProvider = ({ children }) => {
         setUserRole,
         userRoleModalVisible,
         setUserRoleModalVisible,
+        courseSelected,
+        setCourseSelected,
       }}
     >
       {children}

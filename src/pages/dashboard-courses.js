@@ -109,7 +109,9 @@ const content =  <div className="mb-14">
           <th
             scope="col"
             className="border-0 font-size-4 font-weight-normal"
-          ></th>
+          >
+            Seats Availalble
+          </th>
           <th
             scope="col"
             className="border-0 font-size-4 font-weight-normal"
@@ -164,17 +166,17 @@ const content =  <div className="mb-14">
                 to="/#"
                 className={`font-size-3 font-weight-bold ${course.attributes.seats_available < 5 ? 'text-red-2' : 'text-black-2'} text-uppercase`}
               >
-               {course.seats_available}
-              </Link>
-            </div>
+               {course.attributes.seats_available}
+              </Link>            </div>
           </td>
           <td className="table-y-middle py-7 min-width-px-110 pr-0">
             <div className="">
               <Link
+                to={`/enroll?course=${course.id}`}
                 className="font-size-3 font-weight-bold text-green text-uppercase"
               >
                 {isEnroll ? 
-                <button disabled={!registartionAvailable} className={`btn ${registartionAvailable ?  "btn-primary" : "btn-light disabled"} btn-md w-20 text-uppercase float-right border-dark`}>{registartionAvailable ? "Register" : "Full" }</button> : 
+                <button onClick={()=> gContext.setCourseSelected(course)}disabled={!registartionAvailable} className={`btn ${registartionAvailable ?  "btn-primary" : "btn-light disabled"} btn-md w-20 text-uppercase float-right border-dark`}>{registartionAvailable ? "Register" : "Full" }</button> : 
                 <button onClick={()=> {setCourseSelected(course); handleToggle();}} className={`btn btn-primary btn-md w-20 text-uppercase float-right border-dark`}>Details</button>}
               </Link>
             </div>

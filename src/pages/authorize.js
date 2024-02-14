@@ -43,7 +43,8 @@ const LoginRedirect = ({location}) => {
       .then(res => {
         // Successfully logged with Strapi
         // Now saving the jwt to use it for future authenticated requests to Strapi
-
+        localStorage.set("user", res.user);
+        localStorage.set("jwt", res.jwt);
         setText('You have been successfully logged in. You will be redirected in a few seconds...');
         setTimeout(() => navigate('/dashboard-main'), 3000); // Redirect to homepage after 3 sec
       })
@@ -66,9 +67,6 @@ const LoginRedirect = ({location}) => {
                 >
                   {/* <!-- section-title start --> */}
                   <div className="section-title text-center mb-12 mb-lg-18 mb-lg-15 pb-lg-15 pb-0">
-                    <Loader>    <div className="load-circle">
-              <span className="one"></span>
-            </div></Loader>
                     <h2 className="mb-9">
                      {text}
                     </h2>
@@ -81,9 +79,9 @@ const LoginRedirect = ({location}) => {
               </div>
             </div>
           </div>
-    <div className="load-circle">
-              <span className="one"></span>
-            </div>
+          <div class="spinner-grow text-success" role="status">
+  <span class="sr-only">Loading...</span>
+</div>
   </div>
 };
 

@@ -15,7 +15,13 @@ const CheckoutForm = () => {
   const elements = useElements();
 
   const [errorMessage, setErrorMessage] = useState(null);
+  const [copyIcon, setCopyIcon] = useState('fa-clipboard')
 
+  const copyDummyCardNumber = () => {
+    navigator.clipboard.writeText("4242424242424242");
+    setCopyIcon('fa-check text-success');
+    setTimeout(()=> setCopyIcon('fa-clipboard'), 3000);
+  }
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -23,6 +29,11 @@ const CheckoutForm = () => {
       return;
     }
 
+
+  
+
+
+    console.log('this is elements', elements)
     // // Trigger form validation and wallet collection
     const {error: submitError} = await elements.submit();
     if (submitError) {
@@ -30,6 +41,7 @@ const CheckoutForm = () => {
       setErrorMessage(submitError.message);
       return;
     }
+
 
     // // Create the PaymentIntent and obtain clientSecret from your server endpoint
     // // const res = await fetch('/create-intent', {
@@ -61,6 +73,8 @@ const CheckoutForm = () => {
   };
 
   return (
+    <>
+    <p>Copy Test Card Number <span className="btn-sm border" onClick={copyDummyCardNumber} ><div className="tooltip"><span className='tooltiptext'>class</span></div><i className={`fas ${copyIcon}`}></i></span></p>
     <form onSubmit={handleSubmit}>
       <PaymentElement />
       <button type="submit" className='d-flex btn btn-primary mt-3 ml-auto' disabled={!stripe || !elements}>
@@ -69,6 +83,7 @@ const CheckoutForm = () => {
       {/* Show error message to your customers */}
       {errorMessage && <div>{errorMessage}</div>}
     </form>
+    </>
   );
 };
 
@@ -86,7 +101,7 @@ const options = {
 
 const StripePayment = () => (
     <PageWrapper>
-  <Elements stripe={stripePromise} options={options}>
+  <Elements stripe={stripePromise} options={options} >
     <CheckoutForm />
   </Elements>
   </PageWrapper>

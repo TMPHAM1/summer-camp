@@ -1,15 +1,8 @@
 import React, { useContext } from "react";
-import { Link } from "gatsby";
 import styled from "styled-components";
 import { Modal } from "react-bootstrap";
 import GlobalContext from "../../context/GlobalContext";
-import ProfileSidebar from "../ProfileSidebar";
-
-import imgF1 from "../../assets/image/l2/png/featured-job-logo-1.png";
-import imgF2 from "../../assets/image/l1/png/feature-brand-1.png";
-import imgF3 from "../../assets/image/svg/harvard.svg";
-import imgF4 from "../../assets/image/svg/mit.svg";
-import imgL from "../../assets/image/svg/icon-loaction-pin-black.svg";
+import {AuthContext } from "../../context/AuthContext";
 
 
 const ModalStyled = styled(Modal)`
@@ -27,6 +20,9 @@ const ModalStyled = styled(Modal)`
 
 const ModalUserRole = (props) => {
   const gContext = useContext(GlobalContext);
+  const aContext = useContext(AuthContext);
+  const {jwt, username, avatar} = aContext;
+  
   const handleRoleSelect = (event) => {
     gContext.setUserRole(event.target.id);
     gContext.setUserRoleModalVisible(false)

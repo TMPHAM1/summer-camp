@@ -274,13 +274,7 @@ const Header = () => {
                         key="1"
                       >
                         <Link
-                          to="/#"
-                          className="dropdown-item py-2 font-size-3 font-weight-semibold line-height-1p2 text-uppercase"
-                        >
-                          Settings
-                        </Link>
-                        <Link
-                          to="/#"
+                          to="/dashboard-settings"
                           className="dropdown-item py-2 font-size-3 font-weight-semibold line-height-1p2 text-uppercase"
                         >
                           Edit Profile
@@ -298,13 +292,7 @@ const Header = () => {
                         key="2"
                       >
                         <Link
-                          to="/#"
-                          className="dropdown-item py-2 font-size-3 font-weight-semibold line-height-1p2 text-uppercase"
-                        >
-                          Settings
-                        </Link>
-                        <Link
-                          to="/#"
+                          to="/dashboard-settings"
                           className="dropdown-item py-2 font-size-3 font-weight-semibold line-height-1p2 text-uppercase"
                         >
                           Edit Profile

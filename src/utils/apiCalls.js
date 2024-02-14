@@ -6,8 +6,8 @@ const config = {
     }
   };
   
-export const getCourses = async () =>
-     await axios.get('https://api.tienmpham.com/api/courses?populate=teacher', config)
+export const getCourses = async (id) =>
+     await axios.get(`https://api.tienmpham.com/api/courses${id ?  `/${id}` : ''}?populate=teacher`, config)
     .then(response => {
       console.log(response.data);
       return response.data
@@ -15,4 +15,14 @@ export const getCourses = async () =>
     .catch(error => {
       console.error(error);
     });
+
+    export const updateProfile = async (id) =>
+    await axios.get(`https://api.tienmpham.com/api/users${id ?  `/${id}` : ''}?populate=teacher`, config)
+   .then(response => {
+     console.log(response.data);
+     return response.data
+   })
+   .catch(error => {
+     console.error(error);
+   });
 
