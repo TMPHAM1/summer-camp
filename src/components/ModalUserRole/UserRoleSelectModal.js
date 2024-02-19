@@ -20,11 +20,8 @@ const ModalStyled = styled(Modal)`
 
 const ModalUserRole = (props) => {
   const gContext = useContext(GlobalContext);
-  const aContext = useContext(AuthContext);
-  const {jwt, username, avatar} = aContext;
   
   const handleRoleSelect = (event) => {
-    gContext.setUserRole(event.target.id);
     gContext.setUserRoleModalVisible(false)
   };
 

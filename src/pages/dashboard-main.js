@@ -5,26 +5,18 @@ import LazyLoad from "react-lazyload";
 import PageWrapper from "../components/PageWrapper";
 import { Select } from "../components/Core";
 import GlobalContext from "../context/GlobalContext";
+import { AuthContext } from "../context/AuthContext";
 import DashboardAttendance from "./dashboard-attendance";
 import DashboardCourses from "./dashboard-courses";
 
-
-const defaultJobs = [
-  { value: "pd", label: "Product Designer" },
-  { value: "gd", label: "Graphics Designer" },
-  { value: "fd", label: "Frontend Developer" },
-  { value: "bd", label: "Backend Developer" },
-  { value: "cw", label: "Content Writer" },
-];
-
 const DashboardMain = () => {
-  const {userRole, setUserRoleModalVisible } = useContext(GlobalContext);
-  // Check Authenthentication
-  if (!userRole) {
-    setUserRoleModalVisible(true);
-  }
+  const {setUserRoleModalVisible } = useContext(GlobalContext);
+  const {user} = useContext(AuthContext);
+  console.log(user);
+  const userRole = user ? user.role.name : 'Authenticated';
+  
   const courseInfoText = {
-    student: "Courses Enrolled",
+    Authenticated: "Courses Enrolled",
     teacher: "Courses Managed", 
     guardian: "Total Courses Enrolled",
   }

@@ -9,10 +9,13 @@ import {
 } from '@stripe/react-stripe-js';
 import PageWrapper from '../../components/PageWrapper';
 import {navigate} from 'gatsby';
+import {registerUser} from '../../utils/apiCalls';
+import { message } from "antd";
 
-const CheckoutForm = () => {
+const CheckoutForm = (props) => {
   const stripe = useStripe();
   const elements = useElements();
+  const {user,course} = props;
 
   const [errorMessage, setErrorMessage] = useState(null);
   const [copyIcon, setCopyIcon] = useState('fa-clipboard')
@@ -69,6 +72,14 @@ const CheckoutForm = () => {
     //   // methods like iDEAL, your customer will be redirected to an intermediate
     //   // site first to authorize the payment, then redirected to the `return_url`.
     // }
+    try {
+        registerUser(user, course)
+    }
+   catch (error) {
+    console.log(error);
+   return message.error("Error while trying to register for your course, please try again");
+  }
+    
     navigate('/registration-complete')
   };
 
@@ -99,10 +110,10 @@ const options = {
   },
 };
 
-const StripePayment = () => (
+const StripePayment = (props) => (
     <PageWrapper>
   <Elements stripe={stripePromise} options={options} >
-    <CheckoutForm />
+    <CheckoutForm user={props.user} course={props.course} />
   </Elements>
   </PageWrapper>
 );

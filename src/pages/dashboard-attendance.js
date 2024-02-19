@@ -2,6 +2,7 @@ import React, {useContext} from "react";
 import { Link } from "gatsby";
 import PageWrapper from "../components/PageWrapper";
 import { Select } from "../components/Core";
+import { AuthContext } from "../context/AuthContext";
 import GlobalContext from "../context/GlobalContext";
 
 const defaultJobs = [
@@ -32,8 +33,10 @@ const defaultStudents  = [
 
 
 const DashboardAttendance = ({location}) => {
-  const gContext = useContext(GlobalContext);
-  const isTeacher = gContext.userRole=== "teacher"
+  const aContext = useContext(AuthContext);
+  const {user} = aContext;
+
+  const isTeacher = user ? user.role === "teacher": false;
 
   const content =  <div className="mb-18">
 <div className="row mb-11 align-items-center">
