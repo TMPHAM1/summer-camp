@@ -1,6 +1,7 @@
 import React from "react";
 import PageWrapper from "../components/PageWrapper";
 import Hero from "../sections/landing3/Hero";
+import { getToken } from "../utils/helperFn";
 import Services from "../sections/landing3/Services";
 import FeaturedJobs from "../sections/landing3/FeaturedJobs";
 import Content1 from "../sections/landing3/Content1";
@@ -9,6 +10,10 @@ import Slider from "../sections/landing3/Slider";
 import Pricing from "../sections/landing3/Pricing";
 
 const IndexPage = () => {
+  if (getToken()) {
+    window.location = '/dashboard-main'
+  }
+
   return (
     <>
       <PageWrapper

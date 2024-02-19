@@ -1,22 +1,17 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import { Nav, Tab } from "react-bootstrap";
 import { Link } from "gatsby";
 import PageWrapper from "../components/PageWrapper";
 import StripePayment from "../components/Stripe/stripe-payment-element";
-import { getCourses } from "../utils/apiCalls";
-import { useQueryParam, NumberParam, StringParam } from "use-query-params";
-import GlobalContext from "../context/GlobalContext";
+import { getCourses, } from "../utils/apiCalls";
+import { AuthContext } from "../context/AuthContext";
 
-import imgF1 from "../assets/image/l2/png/featured-job-logo-1.png";
-import imgB1 from "../assets/image/l1/png/feature-brand-1.png";
-import imgB2 from "../assets/image/l1/png/feature-brand-4.png";
-import imgB3 from "../assets/image/l1/png/feature-brand-5.png";
-import imgB4 from "../assets/image/l3/png/github-mark.png";
-import imgB5 from "../assets/image/l3/png/universal.png";
 
 
 const CandidateProfile = ({location}) => {  
   const enrollParams = new URLSearchParams(location.search);
+  const aContext = useContext(AuthContext);
+  const {user} = aContext;
   const [course, setCourse] = useState(null)
   const courseID = enrollParams.get('course');
   useEffect(()=> {
@@ -101,7 +96,7 @@ const CandidateProfile = ({location}) => {
                             <div className="mb-8">
                               <p className="font-size-4">Seat Available</p>
                               <h5 className="font-size-4 font-weight-semibold text-black-2">
-                                 {course.attributes.seats_available}
+                                 {course.attributes.seats_available - course.attributes.user.data.length}
                               </h5>
                             </div>
                             <div className="mb-8">
@@ -117,7 +112,7 @@ const CandidateProfile = ({location}) => {
                             <div className="mb-8">
                               <p className="font-size-4">Taught By</p>
                               <h5 className="font-size-4 font-weight-semibold text-black-2">
-                               {course.attributes.teacher.data.attributes.name}
+                               {course.attributes.teacher.data ? course.attributes.teacher.data.attributes.name : "TBD"}
                               </h5>
                             </div>
                             <div className="mb-8">
@@ -133,7 +128,7 @@ const CandidateProfile = ({location}) => {
                             <div className="mb-8">
                               <p className="font-size-4">Email</p>
                               <h5 className="font-size-4 font-weight-semibold text-black-2">
-                              {course.attributes.teacher.data.attributes.email}
+                              {course.attributes.teacher.data ? course.attributes.teacher.data.attributes.email : ''}
                               </h5>
                             </div>
                             <div className="mb-8">
@@ -157,7 +152,7 @@ const CandidateProfile = ({location}) => {
                         </div>
                         {/* <!-- Excerpt End --> */}
                       </Tab.Pane>
-                      <StripePayment />
+                      <StripePayment course={course} user={user}/>
                     </Tab.Content>
                     {/* <!-- Tab Content End --> */}
                     {/* <!-- Tab Section End --> */}

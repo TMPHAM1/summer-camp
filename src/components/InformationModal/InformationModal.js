@@ -18,6 +18,8 @@ const ModalSignUp = (props) => {
   }
   console.log("THIS IS COURSE PASSED THRU INFORMATION MODAL", course)
   const {description, teacher, seats_available, start_date, end_date, name, location, credits, cost} = course.attributes;
+  console.log('THIS IS COURSE', course);
+  console.log('THIS IS TEACHER', teacher)
   return (
     <ModalStyled
       size="lg"
@@ -99,7 +101,7 @@ const ModalSignUp = (props) => {
                             <div className="mb-8">
                               <p className="font-size-4">Taught By</p>
                               <h5 className="font-size-4 font-weight-semibold text-black-2">
-                               {teacher.data.attributes.name}
+                               {teacher.data ? teacher.data.attributes.name : "TBD"}
                               </h5>
                             </div>
                             <div className="mb-8">
@@ -115,7 +117,7 @@ const ModalSignUp = (props) => {
                             <div className="mb-8">
                               <p className="font-size-4">Email</p>
                               <h5 className="font-size-4 font-weight-semibold text-black-2">
-                                {teacher.data.attributes.name || "TBD"}
+                                {teacher.data ? teacher.data.attributes.name :"TBD"}
                               </h5>
                             </div>
                             <div className="mb-8">

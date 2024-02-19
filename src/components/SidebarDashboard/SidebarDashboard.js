@@ -1,14 +1,19 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Link } from "gatsby";
 import { Collapse } from "react-bootstrap";
 import GlobalContext from "../../context/GlobalContext";
+import { AuthContext } from "../../context/AuthContext";
 import imgL from "../../assets/image/logo-main-black.png";
-
+import { getUserCourses } from "../../utils/apiCalls";
 const Sidebar = () => {
-  const gContext = useContext(GlobalContext);
-  const role = gContext.userRole
+  const gContext = useContext(GlobalContext);  
+  const {user} = useContext(AuthContext);
+  const [courses, setCourses] = useState([]);
+  console.log(AuthContext);
+  const role = user ? user.role.name : 'Authenticated';
+  const username = user ? user.username : '';
   const roleCreation= {
-    student: "Enroll in a Course",
+    Authenticated: "Enroll in a Course",
     teacher: "Create a course",
     parent: "Enroll Student in a course",
   }
@@ -18,6 +23,20 @@ const Sidebar = () => {
     teacher: "/create-course",
     parent: "/dashboard-courses?enroll",
   }
+  useEffect(()=> {
+    const fetchData = async () => {
+     try {
+         if(username) {
+         const userCourses  = await getUserCourses(username);
+         setCourses(userCourses.data)
+         }
+       }
+      catch (error) {
+       console.log(error);
+     }
+   }
+   fetchData();
+  }, [username])
   return (
     <>
       <Collapse in={gContext.showSidebarDashboard}>
@@ -64,7 +83,7 @@ const Sidebar = () => {
               >
                 <i className="fas fa-book mr-7"></i>Courses{" "}
                 <span className="ml-auto px-1 h-1 bg-dodger text-white font-size-3 rounded-5 max-height-px-18 flex-all-center">
-                  14
+                  {courses.length}
                 </span>
               </Link>
             </li>

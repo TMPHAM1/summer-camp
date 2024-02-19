@@ -15,7 +15,7 @@ export const menuItems = [
         { name: "dashboard-attendance", label: "Attendance" },
         {
           name: "dashboard-courses",
-          label: "Courses",
+          label: "My Courses",
         },
       ],
   },

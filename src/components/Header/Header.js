@@ -2,8 +2,8 @@ import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import { Container, Dropdown } from "react-bootstrap";
 import { useScrollPosition } from "@n8tb1t/use-scroll-position";
-import { Link } from "gatsby";
-
+import { Link, navigate } from "gatsby";
+import { useEffect } from "react";
 import { useWindowSize } from "../../hooks/useWindowSize";
 import GlobalContext from "../../context/GlobalContext";
 import { AuthContext } from "../../context/AuthContext";
@@ -12,8 +12,7 @@ import NestedMenu from "../NestedMenu";
 import { device } from "../../utils";
 import Logo from "../Logo";
 import { menuItems } from "./menuItems";
-import {navigate} from 'gatsby'
-
+import { removeToken, getToken } from "../../utils/helperFn";
 import imgP from "../../assets/image/default_user.png";
 
 
@@ -52,6 +51,10 @@ const ToggleButton = styled.button`
     dark ? theme.colors.lightShade : theme.colors.heading}!important;
 `;
 
+const handleLogout = () => {
+      removeToken();
+} 
+
 const Header = () => {
   const backendUrl = process.env.BACKEND_URL || "localhost:1337";
   const gContext = useContext(GlobalContext);
@@ -59,6 +62,8 @@ const Header = () => {
   const [showReveal, setShowReveal] = useState(false);
   const avatar = gContext.avatar || null
   const size = useWindowSize();
+ 
+
 
   useScrollPosition(({ prevPos, currPos }) => {
     if (currPos.y < 0) {
@@ -300,6 +305,7 @@ const Header = () => {
                         <Link
                           to="/#"
                           className=" dropdown-item py-2 text-red font-size-3 font-weight-semibold line-height-1p2 text-uppercase"
+                          onClick={handleLogout}
                         >
                           Log Out
                         </Link>

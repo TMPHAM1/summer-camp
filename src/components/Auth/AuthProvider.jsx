@@ -6,8 +6,8 @@ import { message } from "antd";
 import { API, BEARER } from "../../constant";
 import { useEffect } from "react";
 import { getToken } from "../../utils/helperFn";
-
-const AuthProvider = ({ children }) => {
+import { navigate } from "gatsby";
+const AuthProvider = ({ children, location }) => {
   const [userData, setUserData] = useState();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -16,11 +16,10 @@ const AuthProvider = ({ children }) => {
   const fetchLoggedInUser = async (token) => {
     setIsLoading(true);
     try {
-      const response = await fetch(`${API}/users/me`, {
+      const response = await fetch(`${API}/users/me?populate=role,courses`, {
         headers: { Authorization: `${BEARER} ${token}` },
       });
       const data = await response.json();
-      localStorage.set("User", data);
       setUserData(data);
     } catch (error) {
       console.error(error);
@@ -39,6 +38,7 @@ const AuthProvider = ({ children }) => {
       fetchLoggedInUser(authToken);
     }
   }, [authToken]);
+
   return (
     <AuthContext.Provider
       value={{ user: userData, setUser: handleUser, isLoading }}
