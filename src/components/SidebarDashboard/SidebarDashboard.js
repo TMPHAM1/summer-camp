@@ -13,13 +13,13 @@ const Sidebar = () => {
   const username = user ? user.username : '';
   const roleCreation= {
     Authenticated: "Enroll in a Course",
-    teacher: "Create a course",
+    Teacher: "View Courses",
     parent: "Enroll Student in a course",
   }
 
   const roleCreationButtonRedirect = {
     student: "/dashboard-courses?enroll",
-    teacher: "/create-course",
+    Teacher: "/dashboard-courses",
     parent: "/dashboard-courses?enroll",
   }
   useEffect(()=> {
