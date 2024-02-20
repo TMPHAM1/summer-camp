@@ -1,25 +1,29 @@
-import React, { useContext } from "react";
-import { Link } from "gatsby";
+import React, { useContext, useState, useEffect } from "react";
 import CountUp from "react-countup";
 import LazyLoad from "react-lazyload";
 import PageWrapper from "../components/PageWrapper";
-import { Select } from "../components/Core";
-import GlobalContext from "../context/GlobalContext";
 import { AuthContext } from "../context/AuthContext";
 import DashboardAttendance from "./dashboard-attendance";
 import DashboardCourses from "./dashboard-courses";
+import NameModal from "../components/ModalUserRole"
 
 const DashboardMain = () => {
-  const {setUserRoleModalVisible } = useContext(GlobalContext);
   const {user} = useContext(AuthContext);
-  console.log(user);
+  const [showNameModal, setShowNameModal] = useState(false)
+  const toggleNameModal = () => {
+    setShowNameModal(!showNameModal);
+  }
   const userRole = user ? user.role.name : 'Authenticated';
-  
   const courseInfoText = {
     Authenticated: "Courses Enrolled",
-    teacher: "Courses Managed", 
+    Teacher: "Courses Managed", 
     guardian: "Total Courses Enrolled",
   }
+  useEffect(() => {
+    if(user && !user.first_name) {
+      toggleNameModal();
+    }
+  }, [user])
   return (
     <>
       <PageWrapper
@@ -30,11 +34,13 @@ const DashboardMain = () => {
           reveal: false,
         }}
       >
+         <NameModal showModal={showNameModal} user={user} onHide={toggleNameModal} />
+        
         <div className="dashboard-main-container mt-25 mt-lg-31">
           <div className="container">
             <div className="row mb-7">
               <div className="col-xxl-3 col-xl-4 col-lg-6 col-sm-6">
-                {/* <!-- Single Category --> */}
+    {/* <!-- Single Category --> */}
                 <a
                   href="/#"
                   className="media bg-white rounded-4 pl-8 pt-9 pb-9 pr-7 hover-shadow-1 mb-9 shadow-8"

@@ -34,6 +34,7 @@ useEffect(()=> {
 
 fetchData();
 }, [location, user])
+const title = isEnroll ? "Course List" : "My Courses"
 const handleToggle = () => {
   setShowModal(!showModal)}
 const username = user ? user.username : null;
@@ -42,11 +43,11 @@ const content =  <div className="mb-14">
    <InformationModal showModal={showModal} handleClose={handleToggle} course={courseSelected}/>
 <div className="row mb-11 align-items-between">
   <div className="col-lg-6 mb-lg-0 mb-4">
-    <h3 className="font-size-6 mb-0">Course List ({courses.length})</h3>
+    <h3 className="font-size-6 mb-0">{title} ({courses.length})</h3>
   
   </div>
   <div className="col-lg-6 mb-lg-0 mb-4">
-  {isEnroll && role !== "teacher" ? null : <Link to="/dashboard-courses?enroll" className="btn btn-primary float-right text-uppercase float-right border-dark">Enroll</Link>}
+  {!isEnroll && role === "Teacher" ? null : <Link to="/dashboard-courses?enroll" className="btn btn-primary float-right text-uppercase float-right border-dark">Enroll</Link>}
   </div>
 </div>
 <div className="bg-white shadow-8 pt-7 rounded pb-8 px-11">
@@ -137,7 +138,7 @@ const content =  <div className="mb-14">
                 className="font-size-3 font-weight-bold text-green text-uppercase"
               >
                 {isEnroll ? 
-                  ((course.attributes.user.data.some((item) => {console.log("this is item", item); return item.attributes.username === username})) 
+                  ((course.attributes.user.data.some((item) => {return item.attributes.username === username})) 
                   ? <button  disabled={true} className={`btn btn-warning btn-light disabled btn-md w-20 text-uppercase float-right border-dark`}>Already Enrolled</button> 
                   : 
                   <button onClick={()=> {setCourseSelected(course); navigate(`/enroll?course=${course.id}`)}} disabled={!registrationAvailable} className={`btn ${registrationAvailable ?  "btn-primary" : "btn-danger disabled"} btn-md w-20 text-uppercase float-right border-dark`}>{registrationAvailable ? "Register" : "Full" }</button>) 

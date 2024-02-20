@@ -9,7 +9,6 @@ const Sidebar = () => {
   const gContext = useContext(GlobalContext);  
   const {user} = useContext(AuthContext);
   const [courses, setCourses] = useState([]);
-  console.log(AuthContext);
   const role = user ? user.role.name : 'Authenticated';
   const username = user ? user.username : '';
   const roleCreation= {
@@ -64,7 +63,7 @@ const Sidebar = () => {
                 <i className="icon icon-layout-11 mr-7"></i>Dashboard
               </Link>
             </li>
-            {role === "teacher" ?
+            {role === "Teacher" ?
             (<li className="">
               <Link
                 to="/dashboard-attendance"

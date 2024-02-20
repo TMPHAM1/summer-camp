@@ -1,4 +1,6 @@
 import axios from "axios";
+import { getToken } from "./helperFn";
+import { BEARER } from "../constant";
 const backendUrl = process.env.BACKEND_URL || "localhost:1337";
 
 
@@ -8,11 +10,12 @@ const config = {
       'Content-Type': `application/json`
     }
   };
+
+// Course Calls 
   
 export const getCourses = async (id) =>
      await axios.get(`https://${backendUrl}/api/courses${id ?  `/${id}` : ''}?populate=teacher,user`, config)
     .then(response => {
-      console.log(response.data);
       return response.data
     })
     .catch(error => {
@@ -22,25 +25,20 @@ export const getCourses = async (id) =>
     export const getUserCourses = async (id) =>
     await axios.get(`https://${backendUrl}/api/courses?filters[user][username][$eq]=${id}&populate=user,teacher`, config)
    .then(response => {
-     console.log(response.data);
      return response.data
    })
    .catch(error => {
      console.error(error);
    });
 
-// export const updateProfile = async (id) =>
-//     await axios.put(`https://${backendUrl}/api/users${id ?  `/${id}` : ''}?populate=teacher`, config)
-//    .then(response => {
-//      console.log(response.data);
-//      return response.data
-//    })
-//    .catch(error => {
-//      console.error(error);
-//    });
+
+
+
+
+
+// USER CALLS
 
 export const registerUser = async(user, course) => {
-console.log('THIS IS COURSE', course)
 await axios.put(`https://${backendUrl}/api/courses/${course.id}?populate=user,teacher`, JSON.stringify({
   data: {
   user: {connect: [user.id] }
@@ -48,10 +46,67 @@ await axios.put(`https://${backendUrl}/api/courses/${course.id}?populate=user,te
 }), config)
 .then(response => {
   const data = response
-  console.log("WE HAVE SUCCEEDED")
   return data
 })
 .catch(error => {
   console.error(error);
 });
+}
+
+
+export const updateUser = async(info, userID) => {
+  const token = getToken();
+  const data = {}
+ Object.keys(info).map(key => data[key] = info[key]);
+  await axios.put(`https://${backendUrl}/api/users/${userID}`, JSON.stringify(
+    data
+), config)
+  .then(response => {
+    const data = response
+    return data
+  })
+  .catch(error => {
+    console.error(error);
+  });
+  }
+
+  // Attendance calls
+  
+  export const getAttendanceByStudent = async (userID, courseID) =>
+  await axios.get(`https://${backendUrl}/api/attendance-records?filters[course][id][$eq]=${courseID}&filters[user][id][$eq]=${userID}`, config)
+ .then(response => {
+   return response.data
+ })
+ .catch(error => {
+   console.error(error);
+ });
+
+
+ export const getAttendanceByCourse = async (courseID, weekNumber) =>
+ await axios.get(`https://${backendUrl}/api/attendance-records?filters[course][id][$eq]=${courseID}&filters[week_number][$eq]=${weekNumber}&populate=user`, config)
+.then(response => {
+  return response.data
+})
+.catch(error => {
+  console.error(error);
+});
+
+export const updateAttendance = async (data) => {
+  const {userID, courseID, weekNumber, weekTracker} = data;
+
+  await axios.put(`https://${backendUrl}/api/attendance-records`, JSON.stringify(
+    {
+      user: {connect: [userID] },
+      course: {connect: [courseID]},
+      week_number: parseInt(weekNumber),
+      week_tracker: weekTracker,
+      }
+), config).then(response => {
+  return response.data
+})
+.catch(error => {
+  console.error(error);
+});
+
+
 }

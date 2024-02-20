@@ -36,7 +36,6 @@ const CheckoutForm = (props) => {
   
 
 
-    console.log('this is elements', elements)
     // // Trigger form validation and wallet collection
     const {error: submitError} = await elements.submit();
     if (submitError) {
