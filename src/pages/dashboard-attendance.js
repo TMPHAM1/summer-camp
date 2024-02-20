@@ -61,12 +61,13 @@ const Loader = styled.div`
 
   const handleUpdateAttendance = async () => {
     setSubmitIsLoading(true);
+    console.log(students);
     try {
       for (const student of students) {
-        await updateAttendance({courseID: courseSelected.value, weekNumber: weekSelected.value, weekTracker: attendance[student], userID: user.id })
+        await updateAttendance({courseID: courseSelected.value, weekNumber: weekSelected.value, weekTracker: attendance[student.name], userID: student.id })
       }
       setShowCheck(true);
-      setTimeout(setShowCheck(false), 6000)
+      setTimeout(()=> setShowCheck(false), 6000)
   }
   catch(error){
     console.log(error);
@@ -75,8 +76,9 @@ const Loader = styled.div`
   }
   const getStudents = (studentData) => {
       const studentDataFormatted = [];
+      console.log("THIS IS STUDENT", studentData)
       studentData.forEach(student => {
-        studentDataFormatted.push(`${student.attributes.first_name}_${student.attributes.last_name}`)
+        studentDataFormatted.push({name: `${student.attributes.first_name}_${student.attributes.last_name}`, id: student.id})
       })
 
       return studentDataFormatted;
@@ -116,7 +118,9 @@ const Loader = styled.div`
         const courseAttendanceData = await getAttendanceByCourse(courseSelected.value, weekSelected.value);
         const courseAttendanceDataFormatted = {};
         courseAttendanceData.data.forEach(item=> {
+          console.log(item);
           courseAttendanceDataFormatted[`${item.attributes.user.data.attributes.first_name}_${item.attributes.user.data.attributes.last_name}`] = item.attributes.week_tracker;
+          courseAttendanceDataFormatted[`${item.attributes.user.data.attributes.first_name}_${item.attributes.user.data.attributes.last_name}`].id = item.id;
         })
         setStudents(courseSelected.students)
         setAttendance(courseAttendanceDataFormatted);
@@ -216,21 +220,21 @@ const Loader = styled.div`
                 to="/job-details"
                 className="font-size-4 mb-0 font-weight-semibold text-black-2"
               >
-                {startCase(student.split("_"))}
+                {startCase(student.name.split("_"))}
               </Link>
             </div>
           </th>
           <td className="table-y-middle py-7 min-width-px-135">
             <label
-              htmlFor={`${student}-MON`}
+              htmlFor={`${student.name}-MON`}
               className="gr-check-input d-flex  mr-3"
               >
                 <input
                   className="d-none"
                   type="checkbox"
-                  id={`${student}-MON`}
+                  id={`${student.name}-MON`}
                   defaultChecked={false}
-                  checked={attendance && attendance[student] ? attendance[student].MON : false}
+                  checked={attendance && attendance[student.name] ? attendance[student.name].MON : false}
                   onChange={handleAttendanceChange}
                 />
                 <span className="checkbox mr-5"></span>
@@ -238,14 +242,14 @@ const Loader = styled.div`
           </td>
           <td className="table-y-middle py-7 min-width-px-135">
             <label
-              htmlFor={`${student}-TUE`}
+              htmlFor={`${student.name}-TUE`}
               className="gr-check-input d-flex  mr-3"
               >
                 <input
                   className="d-none"
                   type="checkbox"
-                  id={`${student}-TUE`}
-                  checked={attendance && attendance[student] ? attendance[student].TUE : false}
+                  id={`${student.name}-TUE`}
+                  checked={attendance && attendance[student.name] ? attendance[student.name].TUE : false}
                   onChange={handleAttendanceChange}
                 />
                 <span className="checkbox mr-5"></span>
@@ -253,14 +257,14 @@ const Loader = styled.div`
           </td>
           <td className="table-y-middle py-7 min-width-px-135">
             <label
-              htmlFor={`${student}-WED`}
+              htmlFor={`${student.name}-WED`}
               className="gr-check-input d-flex  mr-3"
               >
                 <input
                   className="d-none"
                   type="checkbox"
-                  id={`${student}-WED`}
-                  checked={attendance && attendance[student] ? attendance[student].WED: false}
+                  id={`${student.name}-WED`}
+                  checked={attendance && attendance[student.name] ? attendance[student.name].WED: false}
                   onChange={handleAttendanceChange}
                 />
                 <span className="checkbox mr-5"></span>
@@ -268,14 +272,14 @@ const Loader = styled.div`
           </td>
           <td className="table-y-middle py-7 min-width-px-135">
           <label
-              htmlFor={`${student}-THUR`}
+              htmlFor={`${student.name}-THUR`}
               className="gr-check-input d-flex  mr-3"
               >
                 <input
                   className="d-none"
                   type="checkbox"
-                  id={`${student}-THUR`}
-                  checked={attendance && attendance[student] ? attendance[student].THUR : false}
+                  id={`${student.name}-THUR`}
+                  checked={attendance && attendance[student.name] ? attendance[student.name].THUR : false}
                   onChange={handleAttendanceChange}
                 />
                 <span className="checkbox mr-5"></span>
@@ -283,14 +287,14 @@ const Loader = styled.div`
           </td>
           <td className="table-y-middle py-7 min-width-px-135">
           <label
-              htmlFor={`${student}-FRI`}
+              htmlFor={`${student.name}-FRI`}
               className="gr-check-input d-flex  mr-3"
               >
                 <input
                   className="d-none"
                   type="checkbox"
-                  id={`${student}-FRI`}
-                  checked={attendance && attendance[student] ? attendance[student].FRI : false}
+                  id={`${student.name}-FRI`}
+                  checked={attendance && attendance[student.name] ? attendance[student.name].FRI : false}
                   onChange={handleAttendanceChange}
                 />
                 <span className="checkbox mr-5"></span>

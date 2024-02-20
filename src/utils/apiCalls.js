@@ -91,22 +91,39 @@ export const updateUser = async(info, userID) => {
   console.error(error);
 });
 
-export const updateAttendance = async (data) => {
-  const {userID, courseID, weekNumber, weekTracker} = data;
+export const updateAttendance = async (attendanceData) => {
+  const {userID, courseID, weekNumber, weekTracker} = attendanceData;
+  const {id} = weekTracker;
+  const data = {
+    user: {connect: [userID] },
+    course: {connect: [courseID]},
+    week_number: parseInt(weekNumber),
+    week_tracker: weekTracker,
+    }
+  if (id) {
+    delete weekTracker.id
+    await axios.put(`https://${backendUrl}/api/attendance-records/${id}`, JSON.stringify(
+      {data}
+  ), config).then(response => {
+    return response.data
+  })
+  .catch(error => {
+    console.error(error);
+  });
+  }
+  else {
+    await axios.post(`https://${backendUrl}/api/attendance-records/ `, JSON.stringify(
+      {data}
+  ), config).then(response => {
+    return response.data
+  })
+  .catch(error => {
+    console.error(error);
+  });
 
-  await axios.put(`https://${backendUrl}/api/attendance-records`, JSON.stringify(
-    {
-      user: {connect: [userID] },
-      course: {connect: [courseID]},
-      week_number: parseInt(weekNumber),
-      week_tracker: weekTracker,
-      }
-), config).then(response => {
-  return response.data
-})
-.catch(error => {
-  console.error(error);
-});
+  }
+
+
 
 
 }
