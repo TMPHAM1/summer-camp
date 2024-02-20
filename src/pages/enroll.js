@@ -29,7 +29,6 @@ const CandidateProfile = ({location}) => {
    if(!course) {
       return <div>Error with purchasing current course</div>
    }
-  console.log(course);
   return (
     <>
       <PageWrapper headerConfig={{ button: "profile" }}>

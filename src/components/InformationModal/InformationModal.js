@@ -16,10 +16,7 @@ const ModalSignUp = (props) => {
   if(!course) {
     return <div></div>
   }
-  console.log("THIS IS COURSE PASSED THRU INFORMATION MODAL", course)
   const {description, teacher, seats_available, start_date, end_date, name, location, credits, cost} = course.attributes;
-  console.log('THIS IS COURSE', course);
-  console.log('THIS IS TEACHER', teacher)
   return (
     <ModalStyled
       size="lg"
