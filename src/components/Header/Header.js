@@ -60,7 +60,7 @@ const Header = () => {
   const gContext = useContext(GlobalContext);
   const [showScrolling, setShowScrolling] = useState(false);
   const [showReveal, setShowReveal] = useState(false);
-  const avatar = gContext.avatar || null
+  const avatar = imgP;
   const size = useWindowSize();
  
 
@@ -252,7 +252,7 @@ const Header = () => {
             {gContext.header.button === "profile" && (
               <div className="header-btn-devider ml-auto ml-lg-5 pl-2 d-none d-xs-flex align-items-center">
                 <div>
-                  <Link
+                  {/* <Link
                     to="/#"
                     className="px-3 ml-7 font-size-7 notification-block flex-y-center position-relative"
                   >
@@ -260,7 +260,7 @@ const Header = () => {
                     <span className="font-size-3 count font-weight-semibold text-white bg-primary circle-24 border border-width-3 border border-white">
                       3
                     </span>
-                  </Link>
+                  </Link> */}
                 </div>
                 <div>
                   <Dropdown className="show-gr-dropdown py-5">
@@ -285,7 +285,7 @@ const Header = () => {
                           Edit Profile
                         </Link>
                         <Link
-                          to="/#"
+                          to="/"
                           className=" dropdown-item py-2 text-red font-size-3 font-weight-semibold line-height-1p2 text-uppercase"
                         >
                           Log Out

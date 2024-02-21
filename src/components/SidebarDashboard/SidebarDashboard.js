@@ -9,8 +9,9 @@ const Sidebar = () => {
   const gContext = useContext(GlobalContext);  
   const {user} = useContext(AuthContext);
   const [courses, setCourses] = useState([]);
-  const role = user ? user.role.name : 'Authenticated';
+  const role = user ? user.role.name : 'PUBLIC';
   const username = user ? user.username : '';
+  console.log("THIS IS USER", user);
   const roleCreation= {
     Authenticated: "Enroll in a Course",
     Teacher: "View Courses",
@@ -22,20 +23,22 @@ const Sidebar = () => {
     Teacher: "/dashboard-courses",
     parent: "/dashboard-courses?enroll",
   }
-  useEffect(()=> {
-    const fetchData = async () => {
-     try {
-         if(username) {
-         const userCourses  = await getUserCourses(username);
-         setCourses(userCourses.data)
-         }
-       }
-      catch (error) {
-       console.log(error);
-     }
-   }
-   fetchData();
-  }, [username])
+ useEffect(()=> {
+ const fetchData = async () => {
+  try {
+      if(user) {
+        console.log(user.role.name);
+      const userCourses  = await getUserCourses(user.username, user.role.name === "Teacher");
+      setCourses(userCourses.data)
+      }
+    }
+   catch (error) {
+    console.log(error);
+  }
+};
+
+fetchData();
+}, [user])
   return (
     <>
       <Collapse in={gContext.showSidebarDashboard}>

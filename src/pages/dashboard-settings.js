@@ -30,9 +30,10 @@ const Container = styled.div`
   const aContext = useContext(AuthContext);
   const {user} = aContext;
   const [submitSuccessful, setSubmitSuccessful] = useState(false)
+  
   const [formValues, setFormValues] = useState({
-    first_name: user.first_name || '',
-    last_name: user.last_name || ''
+    first_name: user ? user.first_name : '',
+    last_name: user ? user.last_name : ''
   })
   const [isLoading, setIsLoading] = useState(false)
 
@@ -117,8 +118,7 @@ const Container = styled.div`
                             </div>
                           </div>
                         </div>
-                       
-                        <div className="row">
+                        <div className="row float-right">
                             <input
                               type="submit"
                               value="Update Profile"

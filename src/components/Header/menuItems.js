@@ -8,29 +8,29 @@ export const menuItems = [
     //   { name: "landing-3", label: "Home 3" },
     // ],
   },
-  {
-      name: "staff",
-      label: "Staff",
-      items: [
-        { name: "dashboard-attendance", label: "Attendance" },
-        {
-          name: "dashboard-courses",
-          label: "My Courses",
-        },
-      ],
-  },
-  {
-    name: "gaurdians",
-    label: "Gaurdians",
-    items: [
-      { name: "dashboard-attendance", label: "Attendance" },
-      { name: "dashboard-courses?enroll", label: "Registration" },
-      {
-        name: "dashboard-household",
-        label: "Household",
-      },
-    ],
-},
+//   {
+//       name: "staff",
+//       label: "Staff",
+//       items: [
+//         { name: "dashboard-attendance", label: "Attendance" },
+//         {
+//           name: "dashboard-courses",
+//           label: "MyCourses",
+//         },
+//       ],
+//   },
+//   {
+//     name: "gaurdians",
+//     label: "Gaurdians",
+//     items: [
+//       { name: "dashboard-attendance", label: "Attendance" },
+//       { name: "dashboard-courses?enroll", label: "Registration" },
+//       {
+//         name: "dashboard-household",
+//         label: "Household",
+//       },
+//     ],
+// },
   // {
   //   name: "pages",
   //   label: "Pages",

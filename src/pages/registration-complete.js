@@ -1,11 +1,16 @@
 import React from "react";
-import { Link } from "gatsby";
 import PageWrapper from "../components/PageWrapper";
 
 const Pricing = () => {
   return (
     <>
-      <PageWrapper>
+      <PageWrapper
+             headerConfig={{
+              button: "profile",
+              isFluid: true,
+              bgClass: "bg-default",
+              reveal: false,
+            }}>
         <div className="pt-md pt-17">
           {/* <!-- pricing area function start --> */}
           {/* <!-- pricing section --> */}
