@@ -1,6 +1,8 @@
 
 import { AUTH_TOKEN } from "../constant"
     
+
+const windowExists = typeof window !== 'undefined' && window.localStorage;
 export const titleCase = str => {
   var splitStr = str.toLowerCase().split(" ");
   for (var i = 0; i < splitStr.length; i++) {
@@ -14,15 +16,17 @@ export const titleCase = str => {
 };
 
 export const getToken = () => {
-  return localStorage.getItem(AUTH_TOKEN);
+  return  windowExists ? localStorage.getItem(AUTH_TOKEN) : null;
 };
 
 export const setToken = (token) => {
-  if (token) {
-    localStorage.setItem(AUTH_TOKEN, token);
+  if (token && windowExists) {
+    windowExists ? localStorage.setItem(AUTH_TOKEN, token) : null;
   }
 };
 
 export const removeToken = () => {
-  localStorage.removeItem(AUTH_TOKEN);
+  if (windowExists) {
+  localStorage.removeItem(AUTH_TOKEN)
+  }
 };

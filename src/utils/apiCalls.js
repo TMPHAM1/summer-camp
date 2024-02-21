@@ -39,7 +39,6 @@ export const getCourses = async (id) =>
 // USER CALLS
 
 export const registerUser = async(user, course) => {
-  console.log("THIS IS USER", user);
 await axios.put(`https://${backendUrl}/api/courses/${course.id}?populate=user,teacher`, JSON.stringify({
   data: {
   user: {connect: [user.id] }
@@ -56,7 +55,6 @@ await axios.put(`https://${backendUrl}/api/courses/${course.id}?populate=user,te
 
 
 export const updateUser = async(info, userID) => {
-  const token = getToken();
   const data = {}
  Object.keys(info).map(key => data[key] = info[key]);
   await axios.put(`https://${backendUrl}/api/users/${userID}`, JSON.stringify(

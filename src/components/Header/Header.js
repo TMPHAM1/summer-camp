@@ -12,7 +12,7 @@ import NestedMenu from "../NestedMenu";
 import { device } from "../../utils";
 import Logo from "../Logo";
 import { menuItems } from "./menuItems";
-import { removeToken, getToken } from "../../utils/helperFn";
+import { removeToken } from "../../utils/helperFn";
 import imgP from "../../assets/image/default_user.png";
 
 
@@ -52,7 +52,9 @@ const ToggleButton = styled.button`
 `;
 
 const handleLogout = () => {
+  if (typeof window !== 'undefined' && window.whaterver-you-need) {
       removeToken();
+  }
 } 
 
 const Header = () => {
