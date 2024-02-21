@@ -21,6 +21,7 @@ const DashboardAttendance = ({location}) => {
     0% {transform: rotate(0deg);}
     100% {transform: rotate(360deg);}
  `
+
 const Loader = styled.div`
   width: 20px;
   height: 20px;
@@ -31,7 +32,27 @@ const Loader = styled.div`
   box-sizing: border-box;
   animation: ${rotation} 1s linear infinite;
 `;  
+const loaderAnimation = keyframes`{to{transform: rotate(1turn)}}`
+const AttendanceLoader = styled.div`
+  width: 50px;
+  aspect-ratio: 1;
+  --_c:no-repeat radial-gradient(farthest-side,#25b09b 92%,#0000);
+  background: 
+    var(--_c) top,
+    var(--_c) left,
+    var(--_c) right,
+    var(--_c) bottom;
+  background-size: 12px 12px;
+  animation: ${loaderAnimation} 1s infinite;
+`;
 
+const Container = styled.div`
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ flex-direction: column;
+ height: 450px;
+`
 
 
   const aContext = useContext(AuthContext);
@@ -45,6 +66,7 @@ const Loader = styled.div`
   const [attendance, setAttendance] = useState(null);
   const [submitIsLoading, setSubmitIsLoading] = useState(false);
   const [showCheck, setShowCheck] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const handleCourseSelect = (value) => {
     setCourseSelected(value)
   }
@@ -76,7 +98,6 @@ const Loader = styled.div`
   }
   const getStudents = (studentData) => {
       const studentDataFormatted = [];
-      console.log("THIS IS STUDENT", studentData)
       studentData.forEach(student => {
         studentDataFormatted.push({name: `${student.attributes.first_name}_${student.attributes.last_name}`, id: student.id})
       })
@@ -86,8 +107,9 @@ const Loader = styled.div`
   useEffect(()=> {
     const fetchData = async () => {
      try {
+         setIsLoading(true);
          if(user) {
-         const userCourses  = await getUserCourses(user.username);
+         const userCourses  = await getUserCourses(user.username, user.role.name === "Teacher");
          const coursesData = userCourses.data.map((course)=> {return {value: course.id, label: course.attributes.name, students: getStudents(course.attributes.user.data) }})
          if (coursesData.length > 0) {
           setCourseSelected(coursesData[0]);
@@ -97,6 +119,9 @@ const Loader = styled.div`
        
      } catch (error) {
        console.log(error);
+     }
+     finally {
+      setIsLoading(false);
      }
    };
    
@@ -166,7 +191,7 @@ const Loader = styled.div`
   </div>
 </div>
 <div className="bg-white shadow-8 pt-7 rounded pb-9 px-11">
- { courseSelected ?<div className="table-responsive ">
+ { isLoading ? <Container><AttendanceLoader /></Container> : (courseSelected ?<div className="table-responsive ">
     <table className="table table-striped">
       <thead>
         <tr>
@@ -217,7 +242,6 @@ const Loader = styled.div`
           >
             <div className="">
               <Link
-                to="/job-details"
                 className="font-size-4 mb-0 font-weight-semibold text-black-2"
               >
                 {startCase(student.name.split("_"))}
@@ -398,7 +422,7 @@ const Loader = styled.div`
       </tbody>
     </table>
     {isTeacher ? <button onClick={handleUpdateAttendance} className="btn btn-primary btn-xl w-20 text-uppercase float-right d-flex flex-align-items-center">{showCheck ? "Update Succcessful" : "Update"}<span className="ml-2">{submitIsLoading ? <Loader /> : (showCheck ? <font size="3"> <i class="fas fa-check text-white"></i> </font> : null)}</span></button>:  null}
-  </div> : <div> No Course Selected to show Attendance </div>}
+  </div> : <div> No Course Selected to show Attendance </div>)}
 </div>
 </div>
   return (

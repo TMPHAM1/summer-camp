@@ -22,8 +22,8 @@ export const getCourses = async (id) =>
       console.error(error);
     });
 
-    export const getUserCourses = async (id) =>
-    await axios.get(`https://${backendUrl}/api/courses?filters[user][username][$eq]=${id}&populate=user,teacher`, config)
+    export const getUserCourses = async (id, isTeacher) =>
+    await axios.get(`https://${backendUrl}/api/courses?filters[${isTeacher ? "teacher" : 'user'}][username][$eq]=${id}&populate=user,teacher`, config)
    .then(response => {
      return response.data
    })
@@ -39,6 +39,7 @@ export const getCourses = async (id) =>
 // USER CALLS
 
 export const registerUser = async(user, course) => {
+  console.log("THIS IS USER", user);
 await axios.put(`https://${backendUrl}/api/courses/${course.id}?populate=user,teacher`, JSON.stringify({
   data: {
   user: {connect: [user.id] }

@@ -5,17 +5,40 @@ import GlobalContext from "../context/GlobalContext";
 import InformationModal from "../components/InformationModal"
 import {getCourses, getUserCourses} from "../utils/apiCalls"
 import { AuthContext } from "../context/AuthContext";
+import styled, {keyframes} from "styled-components";
+
+const loaderAnimation = keyframes`{to{transform: rotate(1turn)}}`
+const Loader = styled.div`
+  width: 50px;
+  aspect-ratio: 1;
+  --_c:no-repeat radial-gradient(farthest-side,#25b09b 92%,#0000);
+  background: 
+    var(--_c) top,
+    var(--_c) left,
+    var(--_c) right,
+    var(--_c) bottom;
+  background-size: 12px 12px;
+  animation: ${loaderAnimation} 1s infinite;
+`;
+
+const Container = styled.div`
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ flex-direction: column;
+ height: 150px;
+`
 
 const DashboardCourses = ({location}) => {
-  const gContext = useContext(GlobalContext);
   const [showModal, setShowModal] = useState(false)
   const isEnroll = location && location.search === "?enroll" ;
   const {user} = useContext(AuthContext);
 const [courses, setCourses] = useState([]);
 const [courseSelected, setCourseSelected] = useState(null);
+const [isLoading, setIsLoading] = useState(false)
 useEffect(()=> {
  const fetchData = async () => {
-
+  setIsLoading(true)
   try {
     const courses = await getCourses();
     if(isEnroll) { 
@@ -23,12 +46,16 @@ useEffect(()=> {
     }
     else {
       if(user) {
-      const userCourses  = await getUserCourses(user.username);
+        console.log(user.role.name);
+      const userCourses  = await getUserCourses(user.username, user.role.name === "Teacher");
       setCourses(userCourses.data)
       }
     }
   } catch (error) {
     console.log(error);
+  }
+  finally {
+    setIsLoading(false)
   }
 };
 
@@ -51,7 +78,7 @@ const content =  <div className="mb-14">
   </div>
 </div>
 <div className="bg-white shadow-8 pt-7 rounded pb-8 px-11">
-  <div className="table-responsive">
+  {isLoading ? <Container><Loader /></Container> : <div className="table-responsive">
     <table className="table table-striped">
       <thead>
         <tr>
@@ -150,7 +177,7 @@ const content =  <div className="mb-14">
         </tr>)}) : <div>No Courses Available</div>}
       </tbody>
     </table>
-  </div>
+  </div>}
 </div>
 </div>
   return (
@@ -166,9 +193,9 @@ const content =  <div className="mb-14">
   {location && location.pathname === "/dashboard-courses" ?
 <div className="dashboard-main-container mt-25 mt-lg-31"> 
   <div className="container">
-      {content}
+     {content}
   </div>
-</div> : content}
+</div> :  content}
       </PageWrapper>
     </>
   );

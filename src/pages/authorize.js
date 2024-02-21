@@ -63,23 +63,15 @@ const LoginRedirect = ({location}) => {
                   data-aos-duration="1000"
                   data-aos-delay="500"
                 >
-                  {/* <!-- section-title start --> */}
                   <div className="section-title text-center mb-12 mb-lg-18 mb-lg-15 pb-lg-15 pb-0">
                     <h2 className="mb-9">
                      {text}
                     </h2>
-                    {/* <p className="text-default-color font-size-4 px-5 px-md-10 px-lg-15 px-xl-24 px-xxl-22">
-                      You should be receiving an email confirmation for you successful enrollment.
-                    </p> */}
                   </div>
-                  {/* <!-- section-title end --> */}
                 </div>
               </div>
             </div>
           </div>
-          <div class="spinner-grow text-success" role="status">
-  <span class="sr-only">Loading...</span>
-</div>
   </div>
 };
 
