@@ -16,14 +16,16 @@ export const titleCase = str => {
 };
 
 export const getToken = () => {
-  return  windowExists ? localStorage.getItem(AUTH_TOKEN) : null;
+  if(windowExists)  {
+    return localStorage.getItem(AUTH_TOKEN)
+  }
 };
 
 export const setToken = (token) => {
   if (token && windowExists) {
-    windowExists ? localStorage.setItem(AUTH_TOKEN, token) : null;
-  }
+    localStorage.setItem(AUTH_TOKEN, token)
 };
+}
 
 export const removeToken = () => {
   if (windowExists) {

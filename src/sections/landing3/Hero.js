@@ -32,17 +32,17 @@ const Hero = () => {
                     Register and join our summer courses now
                   </h1>
                   <p className="font-size-6">
-                   Easily manage your households forms, registration and attendance at your fingertips
+                   Easily manage your courses and view attendance at your fingertips. Portal for both students and faculty.
                   </p>
                 </div>
               </div>
               <div className="pt-12">
-  
+{/*   
                     <div className="button-block">
                       <Button className="line-height-reset  text-uppercase">
                         Enroll Now
                       </Button>
-                    </div>
+                    </div> */}
               </div>
             </div>
             <div className="col-12 pos-abs-tr z-index-n1 position-static position-lg-absolute ml-auto hero-image-positioning-2">

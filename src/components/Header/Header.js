@@ -52,7 +52,7 @@ const ToggleButton = styled.button`
 `;
 
 const handleLogout = () => {
-  if (typeof window !== 'undefined' && window.whaterver-you-need) {
+  if (typeof window !== 'undefined' && window.localStorage) {
       removeToken();
   }
 } 
@@ -243,13 +243,13 @@ const Header = () => {
               </div>
             </div>
 
-            {gContext.header.button === "cta" && (
+            {/* {gContext.header.button === "cta" && (
               <div className="header-btn ml-auto ml-lg-0 mr-6 mr-lg-0 d-none d-xs-block">
                 <Link to="/#" className={`btn btn-${gContext.header.variant}`}>
                   {gContext.header.buttonText}
                 </Link>
               </div>
-            )}
+            )} */}
 
             {gContext.header.button === "profile" && (
               <div className="header-btn-devider ml-auto ml-lg-5 pl-2 d-none d-xs-flex align-items-center">

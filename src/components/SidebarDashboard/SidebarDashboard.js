@@ -9,9 +9,7 @@ const Sidebar = () => {
   const gContext = useContext(GlobalContext);  
   const {user} = useContext(AuthContext);
   const [courses, setCourses] = useState([]);
-  const role = user ? user.role.name : 'PUBLIC';
-  const username = user ? user.username : '';
-  console.log("THIS IS USER", user);
+  const role = user && user.role ? user.role.name : 'PUBLIC';
   const roleCreation= {
     Authenticated: "Enroll in a Course",
     Teacher: "View Courses",
@@ -27,8 +25,7 @@ const Sidebar = () => {
  const fetchData = async () => {
   try {
       if(user) {
-        console.log(user.role.name);
-      const userCourses  = await getUserCourses(user.username, user.role.name === "Teacher");
+      const userCourses  = await getUserCourses(user.username, role === "Teacher");
       setCourses(userCourses.data)
       }
     }
