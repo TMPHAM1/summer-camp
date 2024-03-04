@@ -1,8 +1,6 @@
 import React, { useEffect, useContext } from "react";
 
 import GlobalContext from "../../context/GlobalContext";
-import { Location } from '@reach/router'
-import queryString from 'query-string'
 
 const headerConfigDefault = {
   theme: "light",

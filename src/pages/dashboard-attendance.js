@@ -58,7 +58,7 @@ const Container = styled.div`
   const aContext = useContext(AuthContext);
   const {user} = aContext;
   
-  const isTeacher = user ? user.role.name === "Teacher": false;
+  const isTeacher = user && user.role ? user.role.name === "Teacher": false;
   const [courses, setCourses] = useState([]);
   const [students, setStudents] = useState([])
   const [courseSelected, setCourseSelected] = useState(null)
@@ -143,7 +143,6 @@ const Container = styled.div`
         const courseAttendanceData = await getAttendanceByCourse(courseSelected.value, weekSelected.value);
         const courseAttendanceDataFormatted = {};
         courseAttendanceData.data.forEach(item=> {
-          console.log(item);
           courseAttendanceDataFormatted[`${item.attributes.user.data.attributes.first_name}_${item.attributes.user.data.attributes.last_name}`] = item.attributes.week_tracker;
           courseAttendanceDataFormatted[`${item.attributes.user.data.attributes.first_name}_${item.attributes.user.data.attributes.last_name}`].id = item.id;
         })

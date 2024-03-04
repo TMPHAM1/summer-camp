@@ -30,9 +30,11 @@ const Container = styled.div`
 `
 
 const DashboardCourses = ({location}) => {
+
   const [showModal, setShowModal] = useState(false)
   const isEnroll = location && location.search === "?enroll" ;
   const {user} = useContext(AuthContext);
+  const role = user && user.role ? user.role.name : 'Authenticated';
 const [courses, setCourses] = useState([]);
 const [courseSelected, setCourseSelected] = useState(null);
 const [isLoading, setIsLoading] = useState(false)
@@ -45,8 +47,8 @@ useEffect(()=> {
     setCourses(courses.data);
     }
     else {
-      if(user) {
-        console.log(user.role.name);
+      if(user && user.role) {
+
       const userCourses  = await getUserCourses(user.username, user.role.name === "Teacher");
       setCourses(userCourses.data)
       }
@@ -65,7 +67,7 @@ const title = isEnroll ? "Course List" : "My Courses"
 const handleToggle = () => {
   setShowModal(!showModal)}
 const username = user ? user.username : null;
-const role = user ? user.role.name : 'Authenticated';
+
 const content =  <div className="mb-14">
    <InformationModal showModal={showModal} handleClose={handleToggle} course={courseSelected}/>
 <div className="row mb-11 align-items-between">

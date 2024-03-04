@@ -8,6 +8,9 @@ import DashboardCourses from "./dashboard-courses";
 import NameModal from "../components/ModalUserRole"
 import { getUserCourses } from "../utils/apiCalls";
 import styled, {keyframes} from "styled-components";
+import { getToken } from "../utils/helperFn";
+import { API, BEARER } from "../constant";
+
 
 const rotation =
 keyframes`
@@ -32,16 +35,16 @@ const DashboardMain = () => {
   const [showNameModal, setShowNameModal] = useState(false)
   const [courses, setCourses] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const token = getToken();
   const toggleNameModal = () => {
     setShowNameModal(!showNameModal);
   }
-  const userRole = user ? user.role.name : 'Authenticated';
+  const userRole = user && user.role ? user.role.name : 'Authenticated';
   const courseInfoText = {
     Authenticated: "Courses Enrolled",
     Teacher: "Courses Taught", 
     guardian: "Total Courses Enrolled",
   }
-
   useEffect(() => {
     if(user && !user.first_name) {
       toggleNameModal();
@@ -52,9 +55,11 @@ const DashboardMain = () => {
     const fetchData = async () => {
     try {
       setIsLoading(true);
-         const userCourses  = await getUserCourses(user.username, user.role.name === "Teacher");
+      if(user) {
+         const userCourses  = await getUserCourses(user.username, userRole === "Teacher");
          setCourses(userCourses.data)
        }
+      }
     catch (error) {
        console.log(error);
      }
@@ -97,7 +102,7 @@ const DashboardMain = () => {
                     </h5>
                     <p className="font-size-4 font-weight-normal text-gray mb-0">
                       {courseInfoText[userRole]}
-                    </p>
+                    </p>  
                   </div>
                 </a>
               </div>
