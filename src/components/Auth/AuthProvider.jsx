@@ -35,7 +35,9 @@ const AuthProvider = ({ children, location }) => {
   };
 
   useEffect(() => {
+    if(authToken) {
       fetchLoggedInUser(authToken);
+    }
   }, [authToken]);
 
 
